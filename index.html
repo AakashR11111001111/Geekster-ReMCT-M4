@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products | E-Commerce</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>E-Commerce Store</h1>
+    <input type="text" id="searchInput" placeholder="Search products..." />
+    <button id="themeToggle">🌙</button>
+  </header>
+
+  <main>
+    <div class="filters">
+      <select id="categoryFilter">
+        <option value="">All Categories</option>
+        <option value="men's clothing">Men's Clothing</option>
+        <option value="women's clothing">Women's Clothing</option>
+        <option value="jewelery">Jewelery</option>
+        <option value="electronics">Electronics</option>
+      </select>
+
+      <div class="price-filter">
+        <label for="minPrice">Min Price:</label>
+        <input type="number" id="minPrice" placeholder="Min">
+        <label for="maxPrice">Max Price:</label>
+        <input type="number" id="maxPrice" placeholder="Max">
+      </div>
+    </div>
+
+    <div id="productList" class="product-grid"></div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const loggedInUser = localStorage.getItem('loggedInUser');
+      const themeToggle = document.getElementById('themeToggle');
+      const body = document.body;
+      const currentTheme = localStorage.getItem('theme');
+
+      if (currentTheme === 'dark') {
+        body.classList.add('dark-mode');
+        themeToggle.textContent = '☀️';
+      } else {
+        themeToggle.textContent = '🌙';
+      }
+
+      themeToggle.addEventListener('click', function() {
+        body.classList.toggle('dark-mode');
+        const isDarkMode = body.classList.contains('dark-mode');
+        themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+      });
+
+      if (!loggedInUser) {
+        window.location.href = 'login.html';
+      } else {
+        if (typeof fetchProducts === 'function') {
+          fetchProducts();
+        }
+      }
+    });
+  </script>
+  <script src="./js/products.js"></script>
+  <script src="./js/filter.js"></script>
+  <script src="./js/like.js"></script>
+</body>
+</html>
